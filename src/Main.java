@@ -8,18 +8,28 @@ public class Main {
     private static long checkedTime;
     private static long currentTime;
 
+    private static final String DELIMITER = "@@Num@@";
+    private static String proofStringBase = "http://www.numbersmath.com/is-prime/solved/is-" + DELIMITER + "-a-prime-number";
+
+
+
     public static void main(String[] args) {
 
         long count = 0;
         //Initialize time
-        checkedTime = System.nanoTime();
+        Main.checkedTime = System.nanoTime();
+
+
 
         for(long i = 0; i < Long.MAX_VALUE; i++) {
             if(isPrime(i)) {
 
                 if(hasOneSecondElapsed(checkedTime)) {
 
-                    System.out.println("Prime #" + ++count + " " + i + " Current Time: " + currentTime);
+                    String proof = new String(proofStringBase);
+                    System.out.println("Prime #" + ++count + " " + i + " Current Time: " + convertNanoToMilli(Main.checkedTime));
+                    System.out.println("Proof: " + proof.replace(DELIMITER, i+""));
+                    System.out.println();
                 }
 
                 if(count == 60)
@@ -45,13 +55,17 @@ public class Main {
 
     public static boolean hasOneSecondElapsed(long checkedTime) {
 
-        currentTime = System.nanoTime();
+        Main.currentTime = System.nanoTime();
 
-        if(TimeUnit.MILLISECONDS.convert((currentTime-checkedTime), TimeUnit.NANOSECONDS) >= 1000) {
+        if(convertNanoToMilli(currentTime-checkedTime) >= 1000) {
             Main.checkedTime = currentTime;
             return true;
         }
 
         return false;
+    }
+
+    public static long convertNanoToMilli(long timeInNanos) {
+        return TimeUnit.MILLISECONDS.convert(timeInNanos, TimeUnit.NANOSECONDS);
     }
 }
