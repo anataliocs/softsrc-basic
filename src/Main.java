@@ -5,19 +5,20 @@ import java.util.concurrent.TimeUnit;
  */
 public class Main {
 
+    private static long checkedTime;
+    private static long currentTime;
+
     public static void main(String[] args) {
 
-
         long count = 0;
-        long checkedTime = System.nanoTime();
+        //Initialize time
+        checkedTime = System.nanoTime();
+
         for(long i = 0; i < Long.MAX_VALUE; i++) {
             if(isPrime(i)) {
-                long currentTime = System.nanoTime();
 
-                //System.out.println(TimeUnit.MILLISECONDS.convert((currentTime-checkedTime), TimeUnit.NANOSECONDS));
+                if(hasOneSecondElapsed(checkedTime)) {
 
-                if(TimeUnit.MILLISECONDS.convert((currentTime-checkedTime), TimeUnit.NANOSECONDS) >= 1000) {
-                    checkedTime = currentTime;
                     System.out.println("Prime #" + ++count + " " + i + " Current Time: " + currentTime);
                 }
 
@@ -40,5 +41,17 @@ public class Main {
                 return false;
         }
         return true;
+    }
+
+    public static boolean hasOneSecondElapsed(long checkedTime) {
+
+        currentTime = System.nanoTime();
+
+        if(TimeUnit.MILLISECONDS.convert((currentTime-checkedTime), TimeUnit.NANOSECONDS) >= 1000) {
+            Main.checkedTime = currentTime;
+            return true;
+        }
+
+        return false;
     }
 }
