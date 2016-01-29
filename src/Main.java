@@ -2,30 +2,34 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by canatalio on 1/28/16.
+ * Chris Anatalio
+ * Softsource Coding Practical
  */
 public class Main {
 
     private static long checkedTime;
     private static long currentTime;
 
+    //Generate URL that will prove a certain number is prime for verification
     private static final String DELIMITER = "@@Num@@";
     private static String proofStringBase = "http://www.numbersmath.com/is-prime/solved/is-" + DELIMITER + "-a-prime-number";
-
 
 
     public static void main(String[] args) {
 
         long count = 0;
-        //Initialize time
-        Main.checkedTime = System.nanoTime();
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Please enter 'Start' to begin:");
+        System.out.println("Please type in 'Start' and press enter to begin:");
+
+        //Wait until start is requested
         while(!sc.next().equalsIgnoreCase("Start")) {
 
         }
+
+        //Initialize time check
+        Main.checkedTime = System.nanoTime();
 
         for(long i = 0; i < Long.MAX_VALUE; i++) {
             if(isPrime(i)) {
@@ -49,8 +53,13 @@ public class Main {
 
     public static boolean isPrime(long n)
     {
+
+        //Short-circuit check if checked num is divisible by common factors
         if((n % 2 == 0 && n != 2) || (n % 3 == 0  && n != 3)|| (n % 5 == 0 && n != 5))
             return false;
+
+        //Divide checked number by 5 and starting at 5 check if divisible by increasing values incremented by 2
+        //If divisible by even number, then it would be divisible by 2 and caught in the first check
         for(int i = 5; i < n / 5; i += 2)
         {
             if(n % i == 0)
@@ -59,6 +68,7 @@ public class Main {
         return true;
     }
 
+    //Calculate elapsed time
     public static boolean hasOneSecondElapsed(long checkedTime) {
 
         Main.currentTime = System.nanoTime();
@@ -71,6 +81,7 @@ public class Main {
         return false;
     }
 
+    //Display nano seconds in more readable fashion
     public static long convertNanoToMilli(long timeInNanos) {
         return TimeUnit.MILLISECONDS.convert(timeInNanos, TimeUnit.NANOSECONDS);
     }
