@@ -1,3 +1,4 @@
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -19,7 +20,12 @@ public class Main {
         //Initialize time
         Main.checkedTime = System.nanoTime();
 
+        Scanner sc = new Scanner(System.in);
 
+        System.out.println("Please enter 'Start' to begin:");
+        while(!sc.next().equalsIgnoreCase("Start")) {
+
+        }
 
         for(long i = 0; i < Long.MAX_VALUE; i++) {
             if(isPrime(i)) {
